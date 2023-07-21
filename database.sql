@@ -72,3 +72,50 @@ CREATE TRIGGER trigger_update_tipos_cambio
     ON public.peliculas
     FOR EACH ROW
     EXECUTE FUNCTION public.precio_peliculas_tipo_cambio();
+
+
+---TABLA TRANSICION DE PELICULAS_ACTORES
+
+------ Table: public.peliculas_actores
+-- DROP TABLE IF EXISTS public.peliculas_actores;
+
+
+
+CREATE TABLE IF NOT EXISTS public.peliculas_actores
+(
+    actor_id smallint NOT NULL,
+    pelicula_id smallint NOT NULL,
+    ultima_actualizacion timestamp without time zone NOT NULL DEFAULT now(),
+    CONSTRAINT film_actor_pkey PRIMARY KEY (actor_id, pelicula_id),
+    CONSTRAINT film_actor_actor_id_fkey FOREIGN KEY (actor_id)
+        REFERENCES public.actores (actor_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT film_actor_film_id_fkey FOREIGN KEY (pelicula_id)
+        REFERENCES public.peliculas (pelicula_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.peliculas_actores
+    OWNER to postgres;
+-- Index: idx_fk_film_id
+
+-- DROP INDEX IF EXISTS public.idx_fk_film_id;
+
+CREATE INDEX IF NOT EXISTS idx_fk_film_id
+    ON public.peliculas_actores USING btree
+    (pelicula_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Trigger: last_updated
+
+-- DROP TRIGGER IF EXISTS last_updated ON public.peliculas_actores;
+
+CREATE TRIGGER last_updated
+    BEFORE UPDATE 
+    ON public.peliculas_actores
+    FOR EACH ROW
+    EXECUTE FUNCTION public.last_updated();
