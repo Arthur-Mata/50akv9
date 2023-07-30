@@ -9,3 +9,4 @@ tenemos que contemplar el paso 1 de devopment
 paso 2 development
 Probando siu funciona el comando en git de commit -am para hacer add y commit a la vez.
 Esta modificacion se hizo en branch feature 1
+Y esta otra es la branch feature 2
