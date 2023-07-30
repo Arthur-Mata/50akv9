@@ -12,3 +12,5 @@ Esta modificacion se hizo en branch feature 1
 Y esta otra es la branch feature 2
 
 Estamos probando el stash... funciona correctamente
+
+Digamos que tengo que modificar una cosa de este código
